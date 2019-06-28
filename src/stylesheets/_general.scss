@@ -1,0 +1,10 @@
+body {
+    background: $black;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    line-height: 22px;
+
+    // debug
+    max-width: $maxWidth;
+    margin: 0 auto;
+}

@@ -1,0 +1,8 @@
+.total-production {
+    background: $lightGray;
+    padding: $grid;
+    color: $black;
+    font-size: 22px;
+    height: $general-section-height;
+    @include box-sizing(border-box);
+}

@@ -1,0 +1,66 @@
+.solar-panels {
+    @include flexbox();
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
+    @include breakpoint(desktop) {
+        height: calc(100vh - #{$general-section-height});
+    }
+
+    .panel {
+        border-top: $lightBorder;
+        border-right: $darkBorder;
+        border-bottom: $darkBorder;
+        border-left: $lightBorder;
+        width: 100%;
+        color: $white;
+        @include flexbox();
+        @include flex-direction(column);
+        @include justify-content(space-between);
+        @include box-sizing(border-box);
+        @include breakpoint(tablet) {
+            max-width: 33.333%;
+        }
+        @include breakpoint(desktop) {
+            max-width: 20%;
+        }
+
+        .panel-section {
+            padding: $grid;
+            @include box-sizing(border-box);
+
+            + .panel-section {
+                padding-top: 0;
+            }
+        }
+        .identification {
+            @include flex-grow(1);
+
+            .title {
+                font-weight: bold;
+                padding-top: $grid;
+            }
+            .id {
+                font-size: 12px;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+        }
+        .values {
+            @include flexbox();
+            @include align-items(flex-end);
+            height: $general-section-height;
+
+            > div {
+                width: 50%;
+
+                &.wattage {
+                    text-align: right;
+                }
+            }
+        }
+        .forecast {
+            background: $darkGray;
+            height: $general-section-height;
+        }
+    }
+}
