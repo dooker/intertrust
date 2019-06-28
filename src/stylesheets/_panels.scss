@@ -45,7 +45,8 @@
                 white-space: nowrap;
             }
         }
-        .values {
+        .values,
+        .weather {
             @include flexbox();
             @include align-items(flex-end);
             height: $general-section-height;
@@ -53,14 +54,23 @@
             > div {
                 width: 50%;
 
-                &.wattage {
+                &.wattage,
+                &.clouds {
                     text-align: right;
                 }
             }
         }
-        .forecast {
-            background: $darkGray;
-            height: $general-section-height;
+        .weather {
+            .solar {
+                img {
+                    padding-right: $grid;
+                }
+            }
+            .clouds {
+                img {
+                    padding-left: $grid;
+                }
+            }
         }
     }
 }

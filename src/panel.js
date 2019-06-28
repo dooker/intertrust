@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Config from './config';
+import cloud from './images/cloud.svg';
+import solar from './images/solar.svg';
 
 const Panel = (props) => {
     const [state, setState] = useState({
@@ -7,14 +9,18 @@ const Panel = (props) => {
         id: null,
         voltage: null,
         wattage: null,
+        solar: null,
+        cloud: null,
         forecast: null
     });
 
     useEffect(() => {
         // fetchDataset();
         fetchFakeDataset();
+        fetchFakeWeatherset();
 
         loopDataFetch();
+        loopWeatherFetch();
     }, [])
 
     function loopDataFetch() {
@@ -22,9 +28,19 @@ const Panel = (props) => {
             // fetchDataset();
             fetchFakeDataset();
 
-            // rerun
+            // re-run
             loopDataFetch();
         }, Config.dataRefreshRate)
+    }
+
+    function loopWeatherFetch() {
+        setTimeout(() => {
+            // fetchWeatherset();
+            fetchFakeWeatherset();
+
+            // re-run
+            loopWeatherFetch();
+        }, Config.weatherRefreshRate)
     }
 
     function fetchFakeDataset() {
@@ -35,8 +51,20 @@ const Panel = (props) => {
 
         // add to commented part!!!
         props.onWattageChange(parseFloat(wattage));
+        
+        // setSolar();
+        setState(state => {
+            return {...state, title: title, id: props.point, voltage: voltage, wattage: wattage };
+        });
+    }
 
-        setState({ title: title, id: props.point, voltage: voltage, wattage: wattage })
+    function fetchFakeWeatherset() {
+        var solar = (Math.random(100)*10).toFixed(Config.rounding);
+        var cloud = (Math.random(100)).toFixed(Config.rounding);
+
+        setState(state => {
+            return {...state, solar: solar, cloud: cloud };
+        });
     }
 
     function fetchDataset() {
@@ -50,8 +78,6 @@ const Panel = (props) => {
                 apikey: Config.apiKey
             },
         };
-
-        // console.log(options);
 
         request(options, function (error, response, body) {
             if (error) {
@@ -67,7 +93,7 @@ const Panel = (props) => {
 
             setState({ title: result.Title, id: result.DataVendorKey })
 
-            setCloudSolar(pointPosition.lat, pointPosition.lon);
+            setSolar(pointPosition.lat, pointPosition.lon);
         });
     }
 
@@ -86,20 +112,22 @@ const Panel = (props) => {
         return { lat: element[0], lon: element[1] };
     }
 
-    function setCloudSolar(lat, lon) {
-        // http://api.planetos.com/v1/datasets/bom_access-g_global_40km/point?lon=-50.5&lat=49.5&apikey=<apikey>&var=av_ttl_cld&csv=true&count=50
+    function setSolar() {
+        // http://api.planetos.com/v1/datasets/bom_access-g_global_40km/point?lon=-50.5&lat=49.5&apikey=4d40032a9f2549f7927414be1293d0b1&var=av_swsfcdown&csv=true&count=50
 
         var request = require("request");
-        var currentEndPoint = Config.endPoint + '/' + props.point + '/point';
+        // var currentEndPoint = Config.endPoint + '/' + props.point + '/point';
+        var currentEndPoint = Config.endPoint + '/bom_access-g_global_40km/point';
 
         var options = {
             method: 'GET',
             url: currentEndPoint,
             qs: {
-                count: 50,
-                lon: lat,
-                lat: lon,
-                apikey: Config.apiKey
+                lon: -50.5,
+                lat: 49.5,
+                apikey: Config.apiKey,
+                var: "av_swsfcdown",
+                count: 50
             },
         };
         
@@ -123,7 +151,17 @@ const Panel = (props) => {
                 <div className="voltage">{state.voltage} V</div>
                 <div className="wattage">{state.wattage} kW</div>
             </div>
-            <div className="panel-section forecast">{state.forecast}</div>
+            <div className="panel-section weather">
+                <div className="solar">
+                    <img src={solar} alt="solar" />
+                    <span>{state.solar}</span>
+                </div>
+                <div className="clouds">
+                    <span>{state.cloud} %</span>
+                    <img src={cloud} alt="cloud" />
+                </div>
+                {state.forecast}
+            </div>
         </div>
     );
 };
