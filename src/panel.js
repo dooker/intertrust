@@ -23,6 +23,9 @@ const Panel = (props) => {
         loopWeatherFetch();
     }, [])
 
+    /**
+     * Get data (title, voltage, wattage) of panel in loop
+     */
     function loopDataFetch() {
         setTimeout(() => {
             // fetchDataset();
@@ -33,6 +36,9 @@ const Panel = (props) => {
         }, Config.dataRefreshRate)
     }
 
+    /**
+     * Get weather (solar power, cloud coverage) of panel in loop
+     */
     function loopWeatherFetch() {
         setTimeout(() => {
             // fetchWeatherset();

@@ -18,6 +18,9 @@ const Dashboard = () => {
         // generatePanelsList(["noaa_blended_sea_winds_clim_global"]);
     }, [])
 
+    /**
+     * Get first 30 points from API
+     */
     function getPoints() {
         var request = require("request");
         var options = {
@@ -40,6 +43,10 @@ const Dashboard = () => {
         });
     }
 
+    /**
+     * Generate panels grid
+     * @param {Array.<String>} points - array of point IDs
+     */
     function generatePanelsList(points) {
         for (let i = 0; i < points.length; i++) {
             panels.push(<Panel point={points[i]} className="panel" key={i} totalWattage={totalWattage} onWattageChange={updateTotalWattage}/>)
@@ -48,6 +55,10 @@ const Dashboard = () => {
         setPanelsList(panels);
     }
 
+    /**
+     * Collect all panels wattage and compine it for total value
+     * @param {Number} value - panel wattage
+     */
     function updateTotalWattage(value) {
         newWattage = newWattage + value;
 
