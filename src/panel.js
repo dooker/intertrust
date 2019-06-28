@@ -9,16 +9,32 @@ const Panel = (props) => {
         wattage: null,
         forecast: null
     });
-    
+
     useEffect(() => {
-        fetchDataset();
+        // fetchDataset();
         fetchFakeDataset();
+
+        loopDataFetch();
     }, [])
 
+    function loopDataFetch() {
+        setTimeout(() => {
+            // fetchDataset();
+            fetchFakeDataset();
+
+            // rerun
+            loopDataFetch();
+        }, Config.dataRefreshRate)
+    }
+
     function fetchFakeDataset() {
+        console.log("data generation");
         var title = props.point.replace(/_/g, ' ')
-        var voltage = (Math.random(380)*1000).toFixed(1);
-        var wattage = (Math.random(50)*100000).toFixed(1);
+        var voltage = (Math.random(380)*1000).toFixed(Config.rounding);
+        var wattage = (Math.random(50)*100000).toFixed(Config.rounding);
+
+        // add to commented part!!!
+        props.onWattageChange(parseFloat(wattage));
 
         setState({ title: title, id: props.point, voltage: voltage, wattage: wattage })
     }
@@ -35,7 +51,7 @@ const Panel = (props) => {
             },
         };
 
-        console.log(options);
+        // console.log(options);
 
         request(options, function (error, response, body) {
             if (error) {

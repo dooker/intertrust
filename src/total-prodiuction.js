@@ -1,20 +1,12 @@
 import React, { useEffect } from 'react';
 import Panel from './panel';
 
-const TotalProduction = () => {
-    const totalkW = 0;
-
-    useEffect(() => {
-        getTotalFromPanels();
-    }, [])
-
-    function getTotalFromPanels() {
-        console.log(Panel.state);
-    }
+const TotalProduction = (props) => {
+    console.log(props);
 
     return (
         <div className="total-production">
-            Total production (kW): {totalkW}
+            Total production (kW): {props.power}
         </div>
     )
 }
