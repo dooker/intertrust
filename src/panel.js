@@ -10,8 +10,7 @@ const Panel = (props) => {
         voltage: null,
         wattage: null,
         solar: null,
-        cloud: null,
-        forecast: null
+        cloud: null
     });
 
     useEffect(() => {
@@ -66,7 +65,7 @@ const Panel = (props) => {
      */
     function fetchFakeWeatherset() {
         var solar = (Math.random(100)*10).toFixed(Config.rounding);
-        var cloud = (Math.random(100)).toFixed(Config.rounding);
+        var cloud = (Math.random(100)*100).toFixed(0);
 
         setState(state => {
             return { ...state, solar: solar, cloud: cloud };
@@ -92,7 +91,6 @@ const Panel = (props) => {
                     <span>{state.cloud} %</span>
                     <img src={cloud} alt="cloud" />
                 </div>
-                {state.forecast}
             </div>
         </div>
     );
