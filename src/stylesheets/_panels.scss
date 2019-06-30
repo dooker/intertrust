@@ -5,6 +5,10 @@
     @include breakpoint(desktop) {
         height: calc(100vh - #{$general-section-height});
     }
+    border-top: $darkBorder;
+    border-right: $lightBorder;
+    border-bottom: $lightBorder;
+    border-left: $darkBorder;
 
     .panel {
         border-top: $lightBorder;
@@ -57,8 +61,12 @@
                 &.wattage,
                 &.clouds {
                     text-align: right;
+                    border-left: $black;
                 }
             }
+        }
+        .values {
+            background: $darkGreen;
         }
         .weather {
             .solar {
